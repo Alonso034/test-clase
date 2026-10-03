@@ -3,60 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Pruebas - Clase</title>
+    <title>Plataforma de Tests - Seguridad Privada</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; font-size: 24px; text-align: center; }
-        .question { margin-bottom: 15px; font-weight: bold; margin-top: 20px; }
-        .options label { display: block; margin: 6px 0; cursor: pointer; padding: 8px; background: #f8f9fa; border-radius: 4px; border: 1px solid #ddd; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 26px; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 30px; }
+        
+        /* Selector de Secciones */
+        .section-selector { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+        .btn-section { background: #6c757d; color: white; border: none; padding: 12px 20px; font-size: 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: auto; margin-top: 0; }
+        .btn-section.active { background: #007bff; }
+        
+        .test-section { display: none; }
+        .test-section.active { display: block; }
+
+        .rules-box { background: #e9ecef; border-left: 4px solid #007bff; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px; font-size: 14px; color: #495057; }
+        .rules-box ul { margin: 5px 0 0 20px; padding: 0; }
+
+        .question-card { background: #fdfdfd; border: 1px solid #e1e4e8; padding: 20px; border-radius: 6px; margin-bottom: 20px; position: relative; }
+        .question { font-weight: bold; margin-bottom: 12px; font-size: 16px; color: #2c3e50; }
+        .options label { display: block; margin: 8px 0; cursor: pointer; padding: 10px; background: #f8f9fa; border-radius: 4px; border: 1px solid #ddd; font-size: 14px; transition: background 0.2s; }
         .options label:hover { background: #e9ecef; }
-        button { background: #007bff; color: white; border: none; padding: 10px 15px; font-size: 16px; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 20px; }
+        .options input { margin-right: 10px; }
+        
+        .correct-answer { background-color: #d4edda !important; border-color: #c3e6cb !important; color: #155724; font-weight: bold; }
+        .wrong-answer { background-color: #f8d7da !important; border-color: #f5c6cb !important; color: #721c24; }
+
+        /* Indicador de estado y explicación */
+        .status-badge { display: none; font-weight: bold; font-size: 13px; margin-top: 10px; padding: 4px 8px; border-radius: 4px; width: fit-content; }
+        .status-badge.correct { background-color: #d4edda; color: #155724; display: inline-block; }
+        .status-badge.wrong { background-color: #f8d7da; color: #721c24; display: inline-block; }
+
+        .explanation { display: none; margin-top: 10px; padding: 10px; background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; font-size: 13px; color: #856404; }
+
+        button { background: #007bff; color: white; border: none; padding: 14px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: bold; }
         button:hover { background: #0056b3; }
-        #result { text-align: center; font-size: 18px; font-weight: bold; margin-top: 20px; }
+        
+        .btn-reset { background: #6c757d; margin-top: 10px; }
+        .btn-reset:hover { background: #5a6268; }
+
+        .result { text-align: center; font-size: 20px; font-weight: bold; margin-top: 25px; padding: 15px; border-radius: 6px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Test de Autoevaluación de Clase</h1>
+    <h1>Plataforma de Autoevaluación: Seguridad Privada</h1>
+    <div class="subtitle">Selecciona el módulo que deseas realizar (Examen aleatorio de 10 preguntas)</div>
     
-    <div class="question">1. ¿Qué herramienta se utiliza comúnmente como analizador de tráfico de red (sniffer)?</div>
-    <div class="options">
-        <label><input type="radio" name="q1" value="wrong"> Notepad++</label>
-        <label><input type="radio" name="q1" value="correct"> Wireshark</label>
-        <label><input type="radio" name="q1" value="wrong"> Git</label>
+    <!-- Botones para alternar entre secciones -->
+    <div class="section-selector">
+        <button class="btn-section active" onclick="cambiarSeccion('juridico')">Test Jurídico</button>
+        <button class="btn-section" onclick="cambiarSeccion('psicologia')">Test Psicología</button>
     </div>
 
-    <div class="question">2. ¿Cuál de las siguientes es una plataforma gratuita de Google para crear webs sencillas?</div>
-    <div class="options">
-        <label><input type="radio" name="q2" value="correct"> Google Sites</label>
-        <label><input type="radio" name="q2" value="wrong"> Google Word</label>
-        <label><input type="radio" name="q2" value="wrong"> Google Excel</label>
+    <!-- SECCIÓN 1: TEST JURÍDICO -->
+    <div id="seccion-juridico" class="test-section active">
+        <h2>Módulo: Área Jurídica</h2>
+        <div class="rules-box">
+            <strong>Sistema de Puntuación (sobre 10 preguntas):</strong>
+            <ul>
+                <li>Acertadas = 1 punto</li>
+                <li>Falladas = resta 0,5 puntos</li>
+                <li>Total puntos / 10 * 10 = nota final</li>
+            </ul>
+        </div>
+        <div id="quiz-container-juridico"></div>
+            
+        <button onclick="calcularResultado('juridico')">Comprobar Test Jurídico</button>
+        <button class="btn-reset" onclick="iniciarTest('juridico')">Generar Nuevas 10 Preguntas (Rotar)</button>
+        <div id="result-juridico" class="result"></div>
     </div>
-        
-    <button onclick="calcularResultado()">Comprobar Resultados</button>
 
-    <div id="result"></div>
+    <!-- SECCIÓN 2: TEST PSICOLOGÍA -->
+    <div id="seccion-psicologia" class="test-section">
+        <h2>Módulo: Psicología y Ámbito Socioprofesional</h2>
+        <div class="rules-box">
+            <strong>Sistema de Puntuación (sobre 10 preguntas):</strong>
+            <ul>
+                <li>Acertadas = 1 punto</li>
+                <li>Falladas = resta 0,5 puntos</li>
+                <li>Total puntos / 10 * 10 = nota final</li>
+            </ul>
+        </div>
+        <div id="quiz-container-psicologia"></div>
+            
+        <button onclick="calcularResultado('psicologia')">Comprobar Test Psicología</button>
+        <button class="btn-reset" onclick="iniciarTest('psicologia')">Generar Nuevas 10 Preguntas (Rotar)</button>
+        <div id="result-psicologia" class="result"></div>
+    </div>
+
 </div>
 
 <script>
-    function calcularResultado() {
-        let aciertos = 0;
-        let total = 2; // Número total de preguntas
+    // Banco amplio de Área Jurídica para rotación aleatoria
+    const bancoJuridico = [
+        { q: "Según la Ley 5/2014 de Seguridad Privada, ¿qué consideración tienen las actividades de seguridad privada respecto a la seguridad pública?", options: [{text: "A) Sustitutivas e independientes", val: "wrong"}, {text: "B) Complementarias y subordinadas", val: "correct"}, {text: "C) Superiores y prioritarias", val: "wrong"}], exp: "La seguridad privada ejerce un papel complementario y subordinado respecto a la seguridad pública." },
+        { q: "¿Cuál es el arma reglamentaria principal de los vigilantes de seguridad en los servicios que deban prestarse con armas?", options: [{text: "A) Escopeta de repetición calibre 12/70", val: "wrong"}, {text: "B) Revólver calibre treinta y ocho especial de cuatro pulgadas", val: "correct"}, {text: "C) Pistola semiautomática 9mm Parabellum", val: "wrong"}], exp: "El revólver calibre 38 especial de 4 pulgadas es el arma corta reglamentaria principal." },
+        { q: "¿Qué defensa reglamentaria deben portar los vigilantes de seguridad uniformados durante su servicio?", options: [{text: "A) De color negro, goma semirrígida y 50 centímetros de longitud", val: "correct"}, {text: "B) De color marrón, madera y 60 centímetros", val: "wrong"}, {text: "C) Extensible metálica de 40 centímetros", val: "wrong"}], exp: "La defensa reglamentaria es la porra de color negro, goma semirrígida y 50 centímetros de longitud." },
+        { q: "Ante la comisión de un delito flagrante, el vigilante de seguridad debe:", options: [{text: "A) Interrogar al sospechoso durante 2 horas", val: "wrong"}, {text: "B) Detener y poner inmediatamente a disposición de las Fuerzas y Cuerpos de Seguridad al delincuente", val: "correct"}, {text: "C) Juzgar los hechos y aplicar sanción económica", val: "wrong"}], exp: "Los vigilantes pueden detener en caso de delito flagrante, poniendo al infractor de inmediato a disposición policial." },
+        { q: "¿Qué organismo expide con carácter general la Tarjeta de Identidad Profesional (TIP) del personal de seguridad privada?", options: [{text: "A) El Ministerio de Justicia", val: "wrong"}, {text: "B) La Dirección General de la Policía", val: "correct"}, {text: "C) El Ministerio de Defensa", val: "wrong"}], exp: "La Dirección General de la Policía es el órgano competente para expedir la TIP." },
+        { q: "¿Qué tipos de grilletes pueden utilizar los vigilantes de seguridad si se los proporciona la empresa?", options: [{text: "A) Los denominados de manilla (cadenas, bisagra y rígidos)", val: "correct"}, {text: "B) Únicamente grilletes de cuerda de alta resistencia", val: "wrong"}, {text: "C) Ningún tipo de grillete está permitido", val: "wrong"}], exp: "Los grilletes autorizados son los de manilla (cadena, bisagra y rígidos)." },
+        { q: "Según el artículo 78 del Reglamento de Seguridad Privada, ante el consumo ilegal de drogas en establecimientos, el vigilante debe:", options: [{text: "A) Permitirlo si es una cantidad muy pequeña", val: "wrong"}, {text: "B) Impedir el consumo y comunicarlo con la mayor rapidez a las Fuerzas y Cuerpos de Seguridad", val: "correct"}, {text: "C) Multar directamente al infractor", val: "wrong"}], exp: "Se debe impedir el consumo y dar aviso urgente a las autoridades policiales." },
+        { q: "¿Cuál es el plazo de validez física de la Tarjeta de Identidad Profesional (TIP) como documento de acreditación?", options: [{text: "A) Caduca a los 10 años, o antes si hay causas tasadas", val: "correct"}, {text: "B) Es vitalicia y no caduca nunca", val: "wrong"}, {text: "C) Se renueva obligatoriamente cada año", val: "wrong"}], exp: "La validez del soporte físico de la TIP se establece generalmente en 10 años." },
+        { q: "¿Pueden los vigilantes de seguridad retener la documentación personal de un ciudadano en los controles de identidad?", options: [{text: "A) Sí, durante un máximo de 24 horas", val: "wrong"}, {text: "B) No, en ningún caso pueden retener la documentación personal", val: "correct"}, {text: "C) Sí, si el director de seguridad lo autoriza", val: "wrong"}], exp: "Está prohibido retener documentos de identidad personales; solo comprobación visual." },
+        { q: "¿Cuál es la consecuencia de la omisión o abandono injustificado del servicio dentro de la jornada laboral?", options: [{text: "A) Constituye una infracción muy grave tipificada en la Ley de Seguridad Privada", val: "correct"}, {text: "B) Es una simple falta leve sin importancia", val: "wrong"}, {text: "C) No está regulado en la ley", val: "wrong"}], exp: "El abandono injustificado del servicio se tipifica como infracción muy grave." },
+        { q: "¿Qué arma larga utiliza el vigilante de seguridad cuando está dispuesto su uso?", options: [{text: "A) Escopeta de repetición del calibre 12/70", val: "correct"}, {text: "B) Fusil de asalto militar de 5.56 mm", val: "wrong"}, {text: "C) Carabina del calibre 22", val: "wrong"}], exp: "La escopeta de repetición del calibre 12/70 es el arma larga reglamentaria." },
+        { q: "¿Qué mínimo de disparos deben realizar los vigilantes de seguridad armados en cada ejercicio obligatorio de tiro semestral?", options: [{text: "A) 10 disparos", val: "wrong"}, {text: "B) Un mínimo de 25 disparos", val: "correct"}, {text: "C) 50 disparos", val: "wrong"}], exp: "Se exige un mínimo de 25 disparos por cada ejercicio obligatorio semestral." },
+        { q: "¿Dónde debe llevarse permanentemente el distintivo del vigilante de seguridad en el uniforme?", options: [{text: "A) En la parte superior izquierda correspondiente al pecho", val: "correct"}, {text: "B) En la gorra o prenda de cabeza", val: "wrong"}, {text: "C) En la manga derecha", val: "wrong"}], exp: "El distintivo oficial se sitúa en la parte superior izquierda de la camisa." },
+        { q: "¿Qué color y texto lleva el distintivo oficial de los vigilantes de seguridad?", options: [{text: "A) Fondo blanco, letras rojas con la expresión 'VIGILANTE DE SEGURIDAD' y número", val: "correct"}, {text: "B) Fondo negro y letras doradas", val: "wrong"}, {text: "C) Fondo azul marino", val: "wrong"}], exp: "Es de fondo blanco con caracteres rojos y número de habilitación." },
+        { q: "¿Cuál es el objeto principal de la Ley 5/2014 de Seguridad Privada?", options: [{text: "A) Sustituciones totales de las Fuerzas del Estado", val: "wrong"}, {text: "B) Regular la prestación de actividades y servicios de seguridad privada complementarios", val: "correct"}, {text: "C) Gestionar la seguridad militar", val: "wrong"}], exp: "Regula la seguridad privada como actividad complementaria y subordinada." },
+        { q: "¿Qué requisitos generales se exigen para obtener la habilitación como personal de seguridad privada?", options: [{text: "A) Nacionalidad UE, mayor de edad, aptitud física/psicológica, carecer de antecedentes penales dolosos", val: "correct"}, {text: "B) Ser menor de edad", val: "wrong"}, {text: "C) Cero formación", val: "wrong"}], exp: "Se exigen criterios de nacionalidad, mayoría de edad, aptitudes y ausencia de antecedentes penales dolosos." },
+        { q: "¿Pueden los detectives privados investigar delitos perseguibles de oficio?", options: [{text: "A) No, tienen prohibido investigar delitos perseguibles de oficio y deben denunciarlos", val: "correct"}, {text: "B) Sí, total libertad", val: "wrong"}, {text: "C) Sí, pagando tasas", val: "wrong"}], exp: "Tienen prohibida la investigación de delitos perseguibles de oficio." },
+        { q: "¿Dónde se coloca el escudo-emblema de la empresa de seguridad en la uniformidad?", options: [{text: "A) En la parte alta de la manga izquierda de las prendas superiores", val: "correct"}, {text: "B) Al cuello con cadena", val: "wrong"}, {text: "C) En la espalda", val: "wrong"}], exp: "El emblema de la empresa se coloca obligatoriamente en la manga izquierda." },
+        { q: "¿Cuáles son los principios básicos de actuación del personal de seguridad privada?", options: [{text: "A) Legalidad, integridad, dignidad, protección, corrección, congruencia y proporcionalidad", val: "correct"}, {text: "B) Rapidez e improvisación", val: "wrong"}, {text: "C) Anonimato absoluto", val: "wrong"}], exp: "Se rigen por legalidad, integridad, dignidad, congruencia y proporcionalidad." },
+        { q: "¿Qué consideración legal tiene el personal de seguridad privada cuando actúa en cooperación y bajo mando policial?", options: [{text: "A) Protección jurídica de agente de la autoridad frente a agresiones y desobediencias", val: "correct"}, {text: "B) Consideración militar", val: "wrong"}, {text: "C) Ninguna protección", val: "wrong"}], exp: "Disfrutan de protección jurídica de agente de la autoridad." },
+        { q: "¿A quién corresponde la inspección y control de las empresas de seguridad privada y de su personal?", options: [{text: "A) A los Cuerpos de Seguridad del Estado (Policía Nacional y Guardia Civil)", val: "correct"}, {text: "B) A los directores de seguridad", val: "wrong"}, {text: "C) A los sindicatos", val: "wrong"}], exp: "Corresponde en exclusiva a las unidades especializadas de Policía Nacional y Guardia Civil." },
+        { q: "¿Qué plazo de prescripción tienen las infracciones muy graves cometidas por el personal de seguridad privada?", options: [{text: "A) Dos años", val: "correct"}, {text: "B) Seis meses", val: "wrong"}, {text: "C) Un año", val: "wrong"}], exp: "Las infracciones muy graves prescriben a los dos años." },
+        { q: "¿Cuál es la habilitación específica necesaria para prestar servicios en buques frente a actos de piratería?", options: [{text: "A) Vigilante de seguridad con especialidad de seguridad marítima", val: "correct"}, {text: "B) Guarda particular", val: "wrong"}, {text: "C) Escolta privado", val: "wrong"}], exp: "Se requiere la especialidad específica de seguridad marítima." },
+        { q: "¿Pueden los vigilantes de seguridad portar armas de fuego fuera de las horas y lugares de prestación del servicio?", options: [{text: "A) No, está terminantemente prohibido portar armas de la empresa fuera del servicio", val: "correct"}, {text: "B) Sí, con la TIP", val: "wrong"}, {text: "C) Sí, con permiso del jefe", val: "wrong"}], exp: "Las armas deben quedar custodiadas en el centro de trabajo fuera del horario." },
+        { q: "¿Qué se entiende por central receptora de alarmas (CRA)?", options: [{text: "A) Un establecimiento destinado a recoger, verificar y retransmitir señales de alarma a las Fuerzas de Seguridad", val: "correct"}, {text: "B) Una oficina comercial", val: "wrong"}, {text: "C) Un archivo", val: "wrong"}], exp: "Las CRA reciben, analizan y verifican las alarmas para avisar a la policía." },
+        { q: "¿Constituye infracción grave la negativa a prestar auxilio a las Fuerzas y Cuerpos de Seguridad en situaciones de grave riesgo?", options: [{text: "A) Sí, es una infracción grave", val: "correct"}, {text: "B) No, nunca", val: "wrong"}, {text: "C) Es falta leve", val: "wrong"}], exp: "Negarse a auxiliar a las autoridades en calamidades públicas está sancionado como grave." },
+        { q: "¿Qué requisito de edad mínima se exige para obtener la habilitación como vigilante de seguridad?", options: [{text: "A) Mayor de edad (18 años)", val: "correct"}, {text: "B) 16 años", val: "wrong"}, {text: "C) 21 años", val: "wrong"}], exp: "El aspirante debe haber cumplido la mayoría de edad (18 años)." },
+        { q: "¿Quién debe aprobar los planes de seguridad de obligatoria implantación en determinadas infraestructuras críticas?", options: [{text: "A) El Ministerio del Interior u órgano autonómico competente", val: "correct"}, {text: "B) El ayuntamiento", val: "wrong"}, {text: "C) El cliente", val: "wrong"}], exp: "Los planes de seguridad preceptivos deben ser aprobados por la administración competente." },
+        { q: "¿Cuál es el tratamiento legal de las grabaciones de videovigilancia obtenidas por los servicios privados?", options: [{text: "A) Deben ser custodiadas y destruidas en el plazo máximo legal (30 días)", val: "correct"}, {text: "B) Difusión libre", val: "wrong"}, {text: "C) Guardadas indefinidamente", val: "wrong"}], exp: "Las imágenes captadas deben cancelarse y destruirse en el plazo máximo de 30 días." },
+        { q: "¿Pueden los vigilantes de seguridad realizar controles de identidad en la vía pública de manera general?", options: [{text: "A) No, sus funciones se limitan al perímetro o interior de los inmuebles protegidos", val: "correct"}, {text: "B) Sí, en cualquier calle", val: "wrong"}, {text: "C) Sí, con uniforme de gala", val: "wrong"}], exp: "La actuación del vigilante está circunscrita al interior y accesos de los inmuebles encomendados." }
+    ];
 
-        // Comprobar pregunta 1
-        const r1 = document.querySelector('input[name="q1"]:checked');
-        if (r1 && r1.value === "correct") { aciertos++; }
+    // Banco amplio de Psicología para rotación aleatoria
+    const bancoPsicologia = [
+        { q: "¿Qué define el Código de Ética según el material de estudio?", options: [{text: "A) Una rama de la psicología clínica", val: "wrong"}, {text: "B) Una ciencia normativa que estudia los deberes y los derechos de cada profesión", val: "correct"}, {text: "C) Un conjunto de leyes penales", val: "wrong"}], exp: "El Código de Ética se define como la ciencia normativa de deberes y derechos profesionales." },
+        { q: "¿Cuál es una de las diferencias clave entre moral y ética según el Tema 3?", options: [{text: "A) La moral surge en la interioridad y la ética tiene base social", val: "wrong"}, {text: "B) La moral tiene base social y la ética surge en la interioridad de la persona", val: "correct"}, {text: "C) No hay diferencia", val: "wrong"}], exp: "La moral tiene base social colectiva y la ética brota de la interioridad individual." },
+        { q: "¿Qué capacidad social se define como expresar lo que se piensa y se siente de forma adecuada y sin ansiedad?", options: [{text: "A) Agresividad", val: "wrong"}, {text: "B) Pasividad", val: "wrong"}, {text: "C) Asertividad", val: "correct"}], exp: "La asertividad permite defender los propios derechos sin ansiedad." },
+        { q: "¿Cómo se denomina la técnica asertiva en la que se repite el propio punto de vista con tranquilidad y sin dejarse ganar por aspectos irrelevantes?", options: [{text: "A) Técnica del disco roto", val: "correct"}, {text: "B) Técnica del banco de niebla", val: "wrong"}, {text: "C) Técnica de ignorar", val: "wrong"}], exp: "La técnica del disco roto consiste en insistir calmadamente en nuestro argumento." },
+        { q: "En la pirámide de necesidades de Maslow, ¿qué necesidades se encuentran en la base (nivel inferior)?", options: [{text: "A) Necesidades fisiológicas (respiración, alimentación, descanso)", val: "correct"}, {text: "B) Autorrealización", val: "wrong"}, {text: "C) Reconocimiento y éxito", val: "wrong"}], exp: "En la base se sitúan las necesidades fisiológicas primarias para la supervivencia." },
+        { q: "¿Qué tipo de estructura en la empresa está formada por personas que actúan espontáneamente buscando la satisfacción personal?", options: [{text: "A) Estructura formal", val: "wrong"}, {text: "B) Estructura informal", val: "correct"}, {text: "C) Estructura jerárquica", val: "wrong"}], exp: "La estructura informal surge de forma espontánea priorizando las relaciones personales." },
+        { q: "¿Qué es el autocontrol emocional?", options: [{text: "A) La capacidad que nos permite controlar nuestras emociones y no que estas nos controlen a nosotros", val: "correct"}, {text: "B) La represión total", val: "wrong"}, {text: "C) Influir en los superiores", val: "wrong"}], exp: "Otorga la facultad de regular los impulsos emocionales de forma consciente." },
+        { q: "Según el esquema cognitivo del autocontrol, ¿cuál es la reacción física directa de un pensamiento?", options: [{text: "A) El sentimiento", val: "correct"}, {text: "B) La conducta motora", val: "wrong"}, {text: "C) La memoria", val: "wrong"}], exp: "Cada pensamiento genera una reacción fisiológica interna traducida en un sentimiento." },
+        { q: "¿Cuál es la diferencia principal entre el miedo y la fobia?", options: [{text: "A) El miedo es permanente y la fobia transitoria", val: "wrong"}, {text: "B) El miedo es una respuesta normal y transitoria; la fobia es una reacción desproporcionada, irracional y persistente", val: "correct"}, {text: "C) No hay diferencias", val: "wrong"}], exp: "El miedo es normal y transitorio; la fobia es un temor irracional, persistente y desproporcionado." },
+        { q: "¿Cómo se denomina el miedo a las alturas o vértigo patológico según el temario de fobias?", options: [{text: "A) Acrofobia", val: "correct"}, {text: "B) Agorafobia", val: "wrong"}, {text: "C) Claustrofobia", val: "wrong"}], exp: "La acrofobia es el miedo intenso o vértigo patológico ante las alturas." },
+        { q: "¿Cuáles son las fases del proceso adaptativo del estrés (síndrome general de adaptación)?", options: [{text: "A) Fase de alarma, fase de resistencia y fase de agotamiento", val: "correct"}, {text: "B) Fase inicial e intermedia", val: "wrong"}, {text: "C) Fase de pánico y shock", val: "wrong"}], exp: "Comprende secuencialmente alarma, resistencia sostenida y agotamiento." },
+        { q: "¿Qué tipo de respiración es la más adecuada para proporcionar una mayor calma al sistema nervioso y aprovechar la capacidad pulmonar?", options: [{text: "A) Respiración clavicular", val: "wrong"}, {text: "B) Respiración diafragmática o abdominal", val: "correct"}, {text: "C) Respiración torácica", val: "wrong"}], exp: "La respiración diafragmática maximiza la oxigenación y relaja profundamente." },
+        { q: "¿Qué técnica fisiológica de relajación consiste en adiestrar a la persona en ejercicios de contracción y relajación muscular voluntaria?", options: [{text: "A) Relajación progresiva de Jacobson", val: "correct"}, {text: "B) Desensibilización sistemática", val: "wrong"}, {text: "C) Inoculación de estrés", val: "wrong"}], exp: "Jacobson ideó el método físico de tensar y relajar grupos musculares." },
+        { q: "¿Qué es el pánico dentro de la escala de miedos?", options: [{text: "A) El nivel de gradación más elevado del miedo, totalmente incapacitante y que provoca huida", val: "correct"}, {text: "B) Una simple alerta preventiva", val: "wrong"}, {text: "C) Relajación mental", val: "wrong"}], exp: "El pánico representa el grado máximo de miedo con pérdida de control." },
+        { q: "¿Cuál es una recomendación fundamental para el Vigilante de Seguridad frente a situaciones de pánico colectivo?", options: [{text: "A) Mantener la calma, ayudar a escapar del peligro y colaborar en los servicios de rescate", val: "correct"}, {text: "B) Abandonar el puesto", val: "wrong"}, {text: "C) Gritar con la masa", val: "wrong"}], exp: "Se debe mantener la templanza, guiar a las personas y colaborar con emergencias." },
+        { q: "¿Qué técnica asertiva consiste en aparentar ceder terreno sin cederlo realmente, estando de acuerdo con parte del argumento?", options: [{text: "A) Técnica de la claudicación simulada (Banco de niebla)", val: "correct"}, {text: "B) Disco roto", val: "wrong"}, {text: "C) Procesar el cambio", val: "wrong"}], exp: "El banco de niebla permite dar la razón en lo verosímil sin renunciar al criterio propio." },
+        { q: "¿Cómo se define el estilo de comunicación pasivo?", options: [{text: "A) Persona insegura, se cree inferior, sufre estrés, no mira a los ojos y se lamenta", val: "correct"}, {text: "B) Persona agresiva y dominante", val: "wrong"}, {text: "C) Persona asertiva", val: "wrong"}], exp: "El perfil pasivo denota inseguridad y vulnerabilidad ante la presión." },
+        { q: "¿Qué componentes de la comunicación interpersonal incluyen la mirada, la sonrisa, los gestos y la postura corporal?", options: [{text: "A) Componentes no verbales", val: "correct"}, {text: "B) Componentes paralingüísticos", val: "wrong"}, {text: "C) Componentes verbales", val: "wrong"}], exp: "Gestos y posturas integran el lenguaje corporal o componentes no verbales." },
+        { q: "¿Qué elementos forman parte de los componentes paralingüísticos de la comunicación?", options: [{text: "A) Volumen, entonación, fluidez, claridad y velocidad de la voz", val: "correct"}, {text: "B) Contenido escrito", val: "wrong"}, {text: "C) Movimientos de manos", val: "wrong"}], exp: "La paralingüística estudia el tono, el volumen y la velocidad verbal." },
+        { q: "¿Qué se entiende por escucha activa en el ámbito de las habilidades sociales?", options: [{text: "A) Saber escuchar, formular preguntas adecuadas, permanecer receptivo, comprender y no interrumpir", val: "correct"}, {text: "B) Oír sin prestar atención", val: "wrong"}, {text: "C) Responder con críticas", val: "wrong"}], exp: "La escucha activa implica atención plena y comprensión sincera." },
+        { q: "¿Qué es la empatía según el manual de formación?", options: [{text: "A) Darse cuenta de lo que sienten los demás, de sus necesidades y preocupaciones", val: "correct"}, {text: "B) Compartir opiniones políticas", val: "wrong"}, {text: "C) Juzgar rápidamente", val: "wrong"}], exp: "Ser empático significa sintonizar con los sentimientos y perspectivas ajenas." },
+        { q: "¿Qué caracteriza al miedo innato?", options: [{text: "A) Es común a todas las personas y animales como instinto de supervivencia ante peligros reales", val: "correct"}, {text: "B) Se adquiere leyendo", val: "wrong"}, {text: "C) Aparece en la adultez", val: "wrong"}], exp: "El miedo innato es una respuesta instintiva y universal de preservación." },
+        { q: "¿Cuáles son las graduaciones del miedo adquirido descritas en el temario?", options: [{text: "A) Alerta, precaución y temor", val: "correct"}, {text: "B) Estrés y fobia", val: "wrong"}, {text: "C) Pánico y shock", val: "wrong"}], exp: "El temario clasifica el miedo adquirido en alerta, precaución y temor." },
+        { q: "¿Qué nombre recibe la fobia o miedo patológico a los espacios abiertos, calles o plazas amplias?", options: [{text: "A) Agorafobia", val: "correct"}, {text: "B) Claustrofobia", val: "wrong"}, {text: "C) Acrofobia", val: "wrong"}], exp: "La agorafobia es la angustia o temor ante espacios abiertos o aglomeraciones." },
+        { q: "¿Cómo se denomina el miedo irracional a hablar en público?", options: [{text: "A) Glosofobia", val: "correct"}, {text: "B) Hematofobia", val: "wrong"}, {text: "C) Nictofobia", val: "wrong"}], exp: "La glosofobia designa el miedo persistente a disertar ante auditorios." }
+    ];
 
-        // Comprobar pregunta 2
-        const r2 = document.querySelector('input[name="q2"]:checked');
-        if (r2 && r2.value === "correct") { aciertos++; }
+    let preguntasActualesJuridico = [];
+    let preguntasActualesPsicologia = [];
 
-        const resultadoDiv = document.getElementById('result');
-        resultadoDiv.style.color = aciertos === total ? "green" : "#d9534f";
-        resultadoDiv.innerHTML = `Has acertado ${aciertos} de ${total} preguntas.`;
+    function seleccionarAleatorias(banco, cantidad) {
+        let mezclado = [...banco].sort(() => 0.5 - Math.random());
+        return mezclado.slice(0, cantidad);
     }
+
+    function renderizarTest(tipo) {
+        let container = document.getElementById(`quiz-container-${tipo}`);
+        container.innerHTML = "";
+        let banco = (tipo === 'juridico') ? bancoJuridico : bancoPsicologia;
+        let prefijo = (tipo === 'juridico') ? 'j' : 'p';
+
+        let seleccion = seleccionarAleatorias(banco, 10);
+        if (tipo === 'juridico') preguntasActualesJuridico = seleccion;
+        else preguntasActualesPsicologia = seleccion;
+
+        seleccion.forEach((item, index) => {
+            let numQ = index + 1;
+            let cardHTML = `
+                <div class="question-card" data-q="${prefijo}${numQ}">
+                    <div class="question">${numQ}. ${item.q}</div>
+                    <div class="options">
+            `;
+
+            item.options.forEach((opt) => {
+                cardHTML += `<label><input type="radio" name="${prefijo}${numQ}" value="${opt.val}"> ${opt.text}</label>`;
+            });
+
+            cardHTML += `
+                    </div>
+                    <div class="status-badge" id="badge-${prefijo}${numQ}"></div>
+                    <div class="explanation" id="exp-${prefijo}${numQ}">Explicación: ${item.exp}</div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+
+        document.getElementById(`result-${tipo}`).innerHTML = "";
+        document.getElementById(`result-${tipo}`).style.backgroundColor = "transparent";
+    }
+
+    function iniciarTest(tipo) {
+        renderizarTest(tipo);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cambiarSeccion(seccion) {
+        document.querySelectorAll('.test-section').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.btn-section').forEach(el => el.classList.remove('active'));
+        
+        if (seccion === 'juridico') {
+            document.getElementById('seccion-juridico').classList.add('active');
+            event.target.classList.add('active');
+        } else if (seccion === 'psicologia') {
+            document.getElementById('seccion-psicologia').classList.add('active');
+            event.target.classList.add('active');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function calcularResultado(tipo) {
+        let total = 10;
+        let prefix = (tipo === 'juridico') ? 'j' : 'p';
+        let aciertos = 0;
+        let fallos = 0;
+
+        for (let i = 1; i <= total; i++) {
+            const card = document.querySelector(`[data-q="${prefix}${i}"]`);
+            if (!card) continue;
+            const labels = card.querySelectorAll('label');
+            const badge = document.getElementById(`badge-${prefix}${i}`);
+            const explanation = document.getElementById(`exp-${prefix}${i}`);
+            
+            labels.forEach(l => {
+                l.classList.remove('correct-answer', 'wrong-answer');
+            });
+
+            const selected = card.querySelector(`input[name="${prefix}${i}"]:checked`);
+            const correctInput = card.querySelector(`input[name="${prefix}${i}"][value="correct"]`);
+
+            if (selected) {
+                if (selected.value === "correct") {
+                    aciertos++;
+                    selected.parentElement.classList.add('correct-answer');
+                    badge.className = "status-badge correct";
+                    badge.innerHTML = "¡Correcto!";
+                } else {
+                    fallos++;
+                    selected.parentElement.classList.add('wrong-answer');
+                    if (correctInput) {
+                        correctInput.parentElement.classList.add('correct-answer');
+                    }
+                    badge.className = "status-badge wrong";
+                    badge.innerHTML = "Incorrecto";
+                }
+            } else {
+                fallos++;
+                if (correctInput) {
+                    correctInput.parentElement.classList.add('correct-answer');
+                }
+                badge.className = "status-badge wrong";
+                badge.innerHTML = "No respondida";
+            }
+            
+            badge.style.display = "block";
+            explanation.style.display = "block";
+        }
+
+        let puntosTotales = (aciertos * 1) - (fallos * 0.5);
+        let notaFinal = (puntosTotales / total) * 10;
+        if (notaFinal < 0) notaFinal = 0;
+
+        const resultadoDiv = document.getElementById(`result-${tipo}`);
+        
+        if (notaFinal >= 5) {
+            resultadoDiv.style.backgroundColor = "#d4edda";
+            resultadoDiv.style.color = "#155724";
+            resultadoDiv.innerHTML = `¡Aprobado! Aciertos: ${aciertos} | Fallos: ${fallos} | Puntuación: ${puntosTotales.toFixed(1)} <br><strong>Nota final: ${notaFinal.toFixed(2)} / 10</strong>`;
+        } else {
+            resultadoDiv.style.backgroundColor = "#f8d7da";
+            resultadoDiv.style.color = "#721c24";
+            resultadoDiv.innerHTML = `Suspenso. Aciertos: ${aciertos} | Fallos: ${fallos} | Puntuación: ${puntosTotales.toFixed(1)} <br><strong>Nota final: ${notaFinal.toFixed(2)} / 10</strong>`;
+        }
+    }
+
+    window.onload = function() {
+        renderizarTest('juridico');
+        renderizarTest('psicologia');
+    };
 </script>
 
 </body>
